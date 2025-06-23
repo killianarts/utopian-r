@@ -1,6 +1,6 @@
 (defpackage #:myblog/config/routes
   (:use #:cl
-        #:utopian)
+        #:utopian-r)
   (:export #:*routes*))
 (in-package #:myblog/config/routes)
 

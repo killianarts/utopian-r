@@ -1,7 +1,7 @@
-(defpackage #:utopian-tests/utils
+(defpackage #:utopian-r-tests/utils
   (:use #:cl)
   (:export #:random-string))
-(in-package #:utopian-tests/utils)
+(in-package #:utopian-r-tests/utils)
 
 (defun random-char ()
   (let ((*random-state* (make-random-state t)))

@@ -1,6 +1,6 @@
-(defpackage #:utopian/config
+(defpackage #:utopian-r/config
   (:use #:cl)
-  (:import-from #:utopian/file-loader
+  (:import-from #:utopian-r/file-loader
                 #:eval-file)
   (:import-from #:alexandria
                 #:when-let)
@@ -11,7 +11,7 @@
            #:getenv
            #:getenv-int
            #:appenv))
-(in-package #:utopian/config)
+(in-package #:utopian-r/config)
 
 (defvar *default-app-env* "local")
 

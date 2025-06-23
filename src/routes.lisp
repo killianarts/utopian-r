@@ -1,9 +1,9 @@
-(defpackage #:utopian/routes
+(defpackage #:utopian-r/routes
   (:use #:cl)
-  (:import-from #:utopian/context
+  (:import-from #:utopian-r/context
                 #:*request*
                 #:*response*)
-  (:import-from #:utopian/file-loader
+  (:import-from #:utopian-r/file-loader
                 #:intern-rule)
   (:import-from #:myway
                 #:make-mapper
@@ -19,7 +19,7 @@
 
            ;; from MyWay
            #:next-route))
-(in-package #:utopian/routes)
+(in-package #:utopian-r/routes)
 
 (defvar *controllers-directory*)
 

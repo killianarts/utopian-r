@@ -1,42 +1,41 @@
-(defpackage #:utopian/views
+(defpackage #:utopian-r/views
   (:use #:cl)
-  (:import-from #:utopian/context
+  (:import-from #:utopian-r/context
                 #:*response*
                 #:response-headers)
-  (:import-from #:lsx)
   (:import-from #:closer-mop)
   (:import-from #:alexandria
                 #:ensure-car)
   (:export #:defview
-           #:utopian-view
-           #:utopian-view-class
-           #:utopian-view-direct-superclasses
-           #:render
+           #:utopian-r-view
+           #:utopian-r-view-class
+           #:utopian-r-view-direct-superclasses
+           #:render-html
            #:render-object
            #:html-view
            #:html-view-class))
-(in-package #:utopian/views)
+(in-package #:utopian-r/views)
 
 (defvar *default-content-type* "text/html")
 
-(defclass utopian-view () ())
+(defclass utopian-r-view () ())
 
-(defclass utopian-view-class (standard-class)
+(defclass utopian-r-view-class (standard-class)
   ((content-type :initarg :content-type)
    (render :initarg :render
            :initform nil)
    (render-element :initarg :render-element
                    :initform #'princ)))
 
-(defclass utopian-view-slot-class (c2mop:standard-direct-slot-definition)
+(defclass utopian-r-view-slot-class (c2mop:standard-direct-slot-definition)
   ())
 
-(defgeneric utopian-view-direct-superclasses (class)
-  (:method ((class utopian-view-class))
-    '(utopian-view)))
+(defgeneric utopian-r-view-direct-superclasses (class)
+  (:method ((class utopian-r-view-class))
+    '(utopian-r-view)))
 
 (defgeneric render-object (object stream)
-  (:method :before ((object utopian-view) stream)
+  (:method :before ((object utopian-r-view) stream)
     (let* ((class (class-of object))
            (content-type (view-content-type class)))
       (when (and (boundp '*response*)
@@ -45,10 +44,10 @@
         (setf (getf (response-headers *response*) :content-type)
               content-type)))))
 
-(defmethod c2mop:direct-slot-definition-class ((class utopian-view-class) &key &allow-other-keys)
-  'utopian-view-slot-class)
+(defmethod c2mop:direct-slot-definition-class ((class utopian-r-view-class) &key &allow-other-keys)
+  'utopian-r-view-slot-class)
 
-(defmethod c2mop:validate-superclass ((class utopian-view-class) (super standard-class))
+(defmethod c2mop:validate-superclass ((class utopian-r-view-class) (super standard-class))
   t)
 
 (defun view-content-type (view-class)
@@ -61,21 +60,21 @@
      (defmethod initialize-instance ,lambda-list ,@body)
      (defmethod reinitialize-instance ,lambda-list ,@body)))
 
-(define-initialize-instance :around ((class utopian-view-slot-class) &rest args &key name &allow-other-keys)
+(define-initialize-instance :around ((class utopian-r-view-slot-class) &rest args &key name &allow-other-keys)
   (push
    (intern (princ-to-string name) :keyword)
    (getf args :initargs))
   (apply #'call-next-method class args))
 
-(define-initialize-instance ((class utopian-view-class) &rest initargs
-                                                        &key direct-superclasses &allow-other-keys)
+(define-initialize-instance ((class utopian-r-view-class) &rest initargs
+                             &key direct-superclasses &allow-other-keys)
   (apply #'call-next-method class
          :direct-superclasses (append direct-superclasses
                                       (mapcar #'find-class
-                                              (utopian-view-direct-superclasses class)))
+                                              (utopian-r-view-direct-superclasses class)))
          initargs))
 
-(define-initialize-instance :after ((class utopian-view-class) &rest initargs &key direct-slots render &allow-other-keys)
+(define-initialize-instance :after ((class utopian-r-view-class) &rest initargs &key direct-slots render &allow-other-keys)
   (declare (ignore initargs))
   (when render
     (let* ((stream (gensym "STREAM"))
@@ -107,20 +106,20 @@
                                          (with-output-to-string (s)
                                            (funcall main-fn s object))))))))))
 
-(defclass html-view (utopian-view) ())
+(defclass html-view (utopian-r-view) ())
 
-(defclass html-view-class (utopian-view-class)
+(defclass html-view-class (utopian-r-view-class)
   ((auto-escape :initarg :auto-escape
                 :initform '(t)))
   (:default-initargs
    :content-type "text/html"
    :render-element #'lsx:render-object))
 
-(defmethod utopian-view-direct-superclasses ((class html-view-class))
+(defmethod utopian-r-view-direct-superclasses ((class html-view-class))
   '(html-view))
 
 (defmacro defview (name superclasses slots &rest options)
-  (pushnew '(:metaclass utopian-view-class) options
+  (pushnew '(:metaclass utopian-r-view-class) options
            :key #'first
            :test #'eq)
   `(defclass ,name (,@superclasses)
@@ -132,11 +131,11 @@
          (lsx:*auto-escape* (first (slot-value view-class 'auto-escape))))
     (call-next-method)))
 
-(defun render (object &rest args)
+(defun render-html (object &rest args)
   (etypecase object
     (symbol (apply #'render (find-class object) args))
-    (utopian-view-class
-      (render-object (apply #'make-instance object
-                            :allow-other-keys t
-                            args)
-                     nil))))
+    (utopian-r-view-class
+     (render-object (apply #'make-instance object
+                           :allow-other-keys t
+                           args)
+                    nil))))

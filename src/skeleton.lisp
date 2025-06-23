@@ -1,4 +1,4 @@
-(defpackage #:utopian/skeleton
+(defpackage #:utopian-r/skeleton
   (:use #:cl)
   (:import-from #:mystic.template.file
                 #:file
@@ -10,10 +10,10 @@
                 #:render-string
                 #:write-file)
   (:export #:standard-project))
-(in-package #:utopian/skeleton)
+(in-package #:utopian-r/skeleton)
 
 (defun skeleton-file (file)
-  (asdf:system-relative-pathname :utopian
+  (asdf:system-relative-pathname :utopian-r
                                  (merge-pathnames file #P"skeleton/")))
 
 (defun make-relative-pathname (path base-directory)
@@ -24,7 +24,7 @@
                     (nthcdr (length (pathname-directory base-directory)) (pathname-directory path)))))
 
 (defun project-files ()
-  (let ((base-directory (asdf:system-relative-pathname :utopian #P"skeleton/project/")))
+  (let ((base-directory (asdf:system-relative-pathname :utopian-r #P"skeleton/project/")))
     (labels ((directory-project-files (dir)
                (append
                 (loop for file in (uiop:directory-files dir)
@@ -38,7 +38,7 @@
 (defclass standard-project (mystic.template.file:file-mixin)
   ()
   (:default-initargs
-   :name "utopian-project"
+   :name "utopian-r-project"
    :options
    (list
     ;; NOTE: :docstring option is required with the latest mystic

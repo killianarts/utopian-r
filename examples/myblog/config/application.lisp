@@ -1,6 +1,6 @@
 (defpackage #:myblog/config/application
   (:use #:cl
-        #:utopian)
+        #:utopian-r)
   (:import-from #:lack.component
                 #:to-app
                 #:call)

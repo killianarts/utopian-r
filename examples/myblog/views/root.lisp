@@ -1,7 +1,6 @@
 (defpackage #:myblog/views/root
-  (:use #:cl
-        #:lsx
-        #:utopian)
+  (:use #:cl)
+  (:import-from "utopian-r")
   (:export #:index-page))
 (in-package #:myblog/views/root)
 
@@ -12,11 +11,11 @@
   (:metaclass html-view-class)
   (:render
    <html>
-     <head>
-       <title>Index - Myblog</title>
-     </head>
-     <body>
-       <h1>Welcome</h1>
-       <a href="entries">Show Entries</a>
-     </body>
+   <head>
+   <title>Index - Myblog</title>
+   </head>
+   <body>
+   <h1>Welcome</h1>
+   <a href="entries">Show Entries</a>
+   </body>
    </html>))

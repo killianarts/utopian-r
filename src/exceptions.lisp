@@ -1,4 +1,4 @@
-(defpackage #:utopian/exceptions
+(defpackage #:utopian-r/exceptions
   (:use #:cl)
   (:export #:http-exception
            #:http-redirect
@@ -7,7 +7,7 @@
            #:http-redirect-code
            #:throw-code
            #:redirect-to))
-(in-package #:utopian/exceptions)
+(in-package #:utopian-r/exceptions)
 
 (defparameter *http-status*
   (loop with status = (make-hash-table :test #'eql)
@@ -61,7 +61,7 @@
 
 (define-condition http-exception (error)
   ((code :initarg :code
-         :reader http-exception-code))
+     :reader http-exception-code))
   (:report
    (lambda (condition stream)
      (with-slots (code) condition
@@ -74,8 +74,8 @@
   ((to :initarg :to
        :reader http-redirect-to)
    (code :initarg :code
-         :initform 302
-         :reader http-redirect-code)))
+     :initform 302
+     :reader http-redirect-code)))
 
 (defun throw-code (code)
   (error 'http-exception :code code))

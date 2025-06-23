@@ -1,16 +1,16 @@
-(defpackage #:utopian/cli/new
+(defpackage #:utopian-r/cli/new
   (:use #:cl)
-  (:import-from #:utopian/errors
+  (:import-from #:utopian-r/errors
                 #:invalid-arguments)
-  (:import-from #:utopian/tasks
+  (:import-from #:utopian-r/tasks
                 #:new
                 #:ask-for-value
                 #:use-value)
   (:export #:main))
-(in-package #:utopian/cli/new)
+(in-package #:utopian-r/cli/new)
 
 (defun print-usage ()
-  (format *error-output* "~&Usage: utopian new DESTINATION~%"))
+  (format *error-output* "~&Usage: utopian-r new DESTINATION~%"))
 
 (defun main (&optional destination)
   (unless destination

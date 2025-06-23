@@ -1,15 +1,15 @@
-(defpackage #:utopian/cli/db
+(defpackage #:utopian-r/cli/db
   (:use #:cl)
-  (:import-from #:utopian/errors
+  (:import-from #:utopian-r/errors
                 #:invalid-arguments
                 #:unknown-command
                 #:file-not-found)
-  (:import-from #:utopian/tasks/db)
+  (:import-from #:utopian-r/tasks/db)
   (:export #:main))
-(in-package #:utopian/cli/db)
+(in-package #:utopian-r/cli/db)
 
 (defun print-usage ()
-  (format *error-output* "~&Usage: utopian db COMMAND
+  (format *error-output* "~&Usage: utopian-r db COMMAND
 COMMANDS
     create
         Create a database
@@ -33,13 +33,13 @@ COMMANDS
       (error 'file-not-found :file app-file))
     (cond
       ((equal command "create")
-       (utopian/tasks/db:create app-file))
+       (utopian-r/tasks/db:create app-file))
       ((equal command "recreate")
-       (utopian/tasks/db:recreate app-file))
+       (utopian-r/tasks/db:recreate app-file))
       ((equal command "migrate")
-       (utopian/tasks/db:migrate app-file))
+       (utopian-r/tasks/db:migrate app-file))
       ((equal command "migrate:status")
-       (utopian/tasks/db:migration-status app-file))
+       (utopian-r/tasks/db:migration-status app-file))
       (t
        (error 'unknown-command
               :given command

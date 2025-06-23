@@ -1,4 +1,4 @@
-(uiop:define-package #:utopian/context
+(uiop:define-package #:utopian-r/context
   (:use #:cl)
   (:use-reexport #:lack
                  #:lack.response
@@ -11,7 +11,7 @@
            #:call
            #:*request*
            #:*response*))
-(in-package #:utopian/context)
+(in-package #:utopian-r/context)
 
 (defvar *request*)
 (defvar *response*)

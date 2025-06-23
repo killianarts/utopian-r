@@ -17,7 +17,7 @@ install:
   - ros install fukamachi/lsx
 
 script:
-  - rove utopian-tests.asd
+  - rove utopian-r-tests.asd
 
 after_script:
   - if [ "$COVERAGE" = "1" ]; then

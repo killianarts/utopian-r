@@ -1,6 +1,6 @@
 (defpackage #:myblog/controllers/entries
   (:use #:cl
-        #:utopian
+        #:utopian-r
         #:myblog/views/entries
         #:myblog/models/entry)
   (:import-from #:assoc-utils

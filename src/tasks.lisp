@@ -1,7 +1,7 @@
-(defpackage #:utopian/tasks
+(defpackage #:utopian-r/tasks
   (:use #:cl
-        #:utopian/errors)
-  (:import-from #:utopian/skeleton
+        #:utopian-r/errors)
+  (:import-from #:utopian-r/skeleton
                 #:standard-project)
   (:import-from #:clack
                 #:clackup)
@@ -9,7 +9,7 @@
            #:new
            #:ask-for-value
            #:use-value))
-(in-package #:utopian/tasks)
+(in-package #:utopian-r/tasks)
 
 (defun server (app-file &key address port)
   (check-type app-file pathname)
@@ -28,8 +28,8 @@
         (asdf:missing-component (e)
           (error 'system-not-found :system (asdf/find-component:missing-requires e))))))
   (clack:clackup app-file :use-thread nil
-                 :port (if (stringp port) (parse-integer port) port)
-                 :address address))
+                          :port (if (stringp port) (parse-integer port) port)
+                          :address address))
 
 (defun read-new-value (name &optional default)
   (format t "~A~@[ [~A]~]: " name (if (equal default "") nil default))
@@ -75,7 +75,7 @@
                             (if (char= char #\Space)
                                 #\-
                                 (char-downcase char)))
-                  project-name)))
+               project-name)))
       (setf (getf options :project-name) project-name)
       (setf (getf options :description)
             (check-and-ask-for description "Description" ""))

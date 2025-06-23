@@ -1,8 +1,8 @@
-(defpackage #:utopian/cli/server
+(defpackage #:utopian-r/cli/server
   (:use #:cl)
-  (:import-from #:utopian/tasks
+  (:import-from #:utopian-r/tasks
                 #:server)
-  (:import-from #:utopian/errors
+  (:import-from #:utopian-r/errors
                 #:simple-task-error
                 #:invalid-arguments)
   (:import-from #:just-getopt-parser
@@ -10,10 +10,10 @@
                 #:unknown-option
                 #:required-argument-missing)
   (:export #:main))
-(in-package #:utopian/cli/server)
+(in-package #:utopian-r/cli/server)
 
 (defun print-usage ()
-  (format t "~&Usage: utopian server [OPTIONS]
+  (format t "~&Usage: utopian-r server [OPTIONS]
 
 OPTIONS
     --address

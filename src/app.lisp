@@ -1,21 +1,21 @@
-(defpackage #:utopian/app
+(defpackage #:utopian-r/app
   (:use #:cl)
-  (:import-from #:utopian/routes
+  (:import-from #:utopian-r/routes
                 #:routes-mapper)
-  (:import-from #:utopian/config
+  (:import-from #:utopian-r/config
                 #:*config-dir*
                 #:config)
-  (:import-from #:utopian/context
+  (:import-from #:utopian-r/context
                 #:*request*
                 #:*response*)
-  (:import-from #:utopian/exceptions
+  (:import-from #:utopian-r/exceptions
                 #:throw-code
                 #:http-exception
                 #:http-exception-code
                 #:http-redirect
                 #:http-redirect-to
                 #:http-redirect-code)
-  (:import-from #:utopian/file-loader
+  (:import-from #:utopian-r/file-loader
                 #:load-file)
   (:import-from #:lack
                 #:builder)
@@ -42,7 +42,7 @@
            #:make-response
            #:on-exception
            #:on-validation-error))
-(in-package #:utopian/app)
+(in-package #:utopian-r/app)
 
 (defclass application (lack-component)
   ((routes :initarg :routes
@@ -111,8 +111,8 @@
     (when models
       (labels ((directory-models (dir)
                  (append
-                   (uiop:directory-files dir "*.lisp")
-                   (mapcan #'directory-models (uiop:subdirectories dir)))))
+                  (uiop:directory-files dir "*.lisp")
+                  (mapcan #'directory-models (uiop:subdirectories dir)))))
         (let ((model-files (directory-models models)))
           (when model-files
             (let ((count (length model-files)))
@@ -154,12 +154,12 @@
              (loop with headers-map = (make-hash-table :test 'equal)
                    for (k v) on headers by #'cddr
                    if v
-                   do (setf (gethash k headers-map)
-                            (if (gethash k headers-map)
-                                (format nil "~A, ~A" (gethash k headers-map) v)
-                                v))
+                     do (setf (gethash k headers-map)
+                              (if (gethash k headers-map)
+                                  (format nil "~A, ~A" (gethash k headers-map) v)
+                                  v))
                    else
-                   do (remhash k headers-map)
+                     do (remhash k headers-map)
                    finally (return (hash-table-plist headers-map)))))
       (lack.response:make-response status headers body))))
 
@@ -171,7 +171,7 @@
   (:method ((app application) (error error))
     nil))
 
-(defclass utopian-app-class (standard-class)
+(defclass utopian-r-app-class (standard-class)
   ((base-directory :initarg :base-directory
                    :initform *default-pathname-defaults*)
    (config :initarg :config
@@ -181,7 +181,7 @@
    (additional-headers :initarg :additional-headers
                        :initform '())))
 
-(defmethod initialize-instance :after ((class utopian-app-class) &rest initargs &key config &allow-other-keys)
+(defmethod initialize-instance :after ((class utopian-r-app-class) &rest initargs &key config &allow-other-keys)
   (declare (ignore initargs))
   (assert (and (listp config)
                (null (rest config))))
@@ -190,7 +190,7 @@
       (setf config
             (merge-pathnames (first config) (first base-directory))))))
 
-(defmethod reinitialize-instance :after ((class utopian-app-class) &rest initargs &key config &allow-other-keys)
+(defmethod reinitialize-instance :after ((class utopian-r-app-class) &rest initargs &key config &allow-other-keys)
   (declare (ignore initargs))
   (assert (and (listp config)
                (null (rest config))))
@@ -199,12 +199,12 @@
       (setf config
             (merge-pathnames (first config) (first base-directory))))))
 
-(defmethod c2mop:validate-superclass ((class utopian-app-class) (super standard-class))
+(defmethod c2mop:validate-superclass ((class utopian-r-app-class) (super standard-class))
   t)
 
 (defmacro defapp (name superclasses slots &rest options)
   `(defclass ,name (application ,@superclasses)
      ,slots
-     (:metaclass utopian-app-class)
+     (:metaclass utopian-r-app-class)
      (:base-directory ,(uiop:pathname-directory-pathname (or *compile-file-pathname* *load-pathname*)))
      ,@options))

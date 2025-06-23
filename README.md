@@ -1,8 +1,8 @@
-# Utopian
+# Utopian-R
 
-[![Quicklisp dist](http://quickdocs.org/badge/utopian.svg)](http://quickdocs.org/utopian/)
+[![Quicklisp dist](http://quickdocs.org/badge/utopian-r.svg)](http://quickdocs.org/utopian/)
 
-> The caveman in offering the first garland to his maiden thereby transcended the brute. He became a utopian in thus rising above the crude necessities of nature. He entered the realm of art when he perceived the subtle use of the useless.
+> The caveman in offering the first garland to his maiden thereby transcended the brute. He became a utopian-r in thus rising above the crude necessities of nature. He entered the realm of art when he perceived the subtle use of the useless.
 > -- Okakura Tenshin, "The Book of Tea"
 
 3 steps to write a better web application:
@@ -11,7 +11,7 @@
 2. Choose the right web framework.
 3. Write less.
 
-Utopian is a web application framework that encourages rapid web development.
+Utopian-R is a web application framework that encourages rapid web development.
 
 ## Requirements
 
@@ -24,7 +24,7 @@ Utopian is a web application framework that encourages rapid web development.
 ### Installation
 
 ```
-$ ros install fukamachi/utopian
+$ ros install fukamachi/utopian-r
 $ ros install fukamachi/lsx
 $ ros install fukamachi/qlot
 ```
@@ -36,7 +36,7 @@ Ensure `~/.roswell/bin` is in your shell `$PATH`.
 To generate the project skeleton, open a terminal and execute this command:
 
 ```
-$ utopian new blog
+$ utopian-r new blog
 ```
 
 ### Installing dependencies
@@ -69,13 +69,13 @@ mysql> GRANT ALL ON *.* TO blog@localhost;
 #### Creating a database
 
 ```
-$ .qlot/bin/utopian db create
+$ .qlot/bin/utopian-r db create
 ```
 
 ### Starting a development server
 
 ```
-$ .qlot/bin/utopian server
+$ .qlot/bin/utopian-r server
 Hunchentoot server is going to start.
 Listening on localhost:5000.
 ```
@@ -85,13 +85,13 @@ Listening on localhost:5000.
 Add Mito table classes under `models/` directory and run the following commands:
 
 ```
-$ .qlot/bin/utopian generate migration
-$ .qlot/bin/utopian db migrate
+$ .qlot/bin/utopian-r generate migration
+$ .qlot/bin/utopian-r db migrate
 ```
 
 ## Examples
 
-See [examples/](https://github.com/fukamachi/utopian/tree/next/examples) directory.
+See [examples/](https://github.com/fukamachi/utopian-r/tree/next/examples) directory.
 
 ## See Also
 
