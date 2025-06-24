@@ -68,11 +68,11 @@
 
 (define-initialize-instance ((class utopian-r-view-class) &rest initargs
                              &key direct-superclasses &allow-other-keys)
-  (apply #'call-next-method class
-         :direct-superclasses (append direct-superclasses
-                                      (mapcar #'find-class
-                                              (utopian-r-view-direct-superclasses class)))
-         initargs))
+    (apply #'call-next-method class
+           :direct-superclasses (append direct-superclasses
+                                        (mapcar #'find-class
+                                                (utopian-r-view-direct-superclasses class)))
+           initargs))
 
 (define-initialize-instance :after ((class utopian-r-view-class) &rest initargs &key direct-slots render &allow-other-keys)
   (declare (ignore initargs))
@@ -133,7 +133,7 @@
 
 (defun render-html (object &rest args)
   (etypecase object
-    (symbol (apply #'render (find-class object) args))
+    (symbol (apply #'render-html (find-class object) args))
     (utopian-r-view-class
      (render-object (apply #'make-instance object
                            :allow-other-keys t
