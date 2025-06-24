@@ -9,5 +9,5 @@
 
 (defun {{name}} (params)
   (declare (ignore params))
-  (render '{{name}}-page))
+  (render-html '{{name}}-page))
 {{/actions}}

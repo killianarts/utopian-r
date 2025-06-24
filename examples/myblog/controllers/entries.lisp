@@ -11,11 +11,11 @@
 
 (defun listing (params)
   (declare (ignore params))
-  (render 'listing-page
-          :entries (mito:select-dao 'entry)))
+  (render-html 'listing-page
+               :entries (mito:select-dao 'entry)))
 
 (defun show (params)
   (let ((entry (mito:find-dao 'entry :id (aget params :id))))
     (unless entry
       (throw-code 404))
-    (render 'show-page :entry entry)))
+    (render-html 'show-page :entry entry)))

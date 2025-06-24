@@ -1,6 +1,6 @@
 (defpackage #:{{project-name}}/views/{{controller}}
   (:use #:cl
-        #:utopian)
+        #:utopian-r)
   (:import-from #:lsx
                 #:enable-lsx-syntax)
   (:export {{#actions}}#:{{name}}-page{{^last}}
@@ -15,8 +15,8 @@
   (:metaclass html-view-class)
   (:render
    <html>
-     <head>
-       <title>{{name}} | {{project-name}}</title>
+   <head>
+   <title>{{name}} | {{project-name}}</title>
      </head>
      <body>
        <h1>{{name}}</h1>

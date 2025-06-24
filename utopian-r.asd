@@ -26,8 +26,8 @@
                  (:file "skeleton")
                  (:file "tasks")
                  (:file "views")
-                 (:file "main")
-                 (:file "app"))))
+                 (:file "app")
+                 (:file "main"))))
   :in-order-to ((test-op (test-op "utopian-r-tests"))))
 
 (register-system-packages "lack-component" '(#:lack.component))

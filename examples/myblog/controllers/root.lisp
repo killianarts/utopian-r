@@ -7,4 +7,4 @@
 
 (defun index (params)
   (declare (ignore params))
-  (render 'index-page))
+  (render-html 'index-page))
