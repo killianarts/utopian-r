@@ -1,16 +1,16 @@
-(defpackage #:utopian-r/cli/server
-  (:use #:cl)
-  (:import-from #:utopian-r/tasks
-                #:server)
-  (:import-from #:utopian-r/errors
-                #:simple-task-error
-                #:invalid-arguments)
-  (:import-from #:just-getopt-parser
-                #:getopt
-                #:unknown-option
-                #:required-argument-missing)
-  (:export #:main))
-(in-package #:utopian-r/cli/server)
+;; (defpackage #:utopian-r/cli/server
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/tasks
+;;                 #:server)
+;;   (:import-from #:utopian-r/errors
+;;                 #:simple-task-error
+;;                 #:invalid-arguments)
+;;   (:import-from #:just-getopt-parser
+;;                 #:getopt
+;;                 #:unknown-option
+;;                 #:required-argument-missing)
+;;   (:export #:main))
+(in-package #:utopian-r)
 
 (defun print-usage ()
   (format t "~&Usage: utopian-r server [OPTIONS]
@@ -27,16 +27,16 @@ OPTIONS
   (print-usage)
   (error 'invalid-arguments))
 
-(defun main (argv)
+(defun server-command (argv)
   (multiple-value-bind (options args)
-      (handler-bind ((unknown-option #'invalid-arguments)
-                     (required-argument-missing #'invalid-arguments))
-        (getopt argv
-                '((:address "address" :required)
-                  (:port "port" :required))
-                :options-everywhere t
-                :error-on-unknown-option t
-                :error-on-argument-missing t))
+      (handler-bind ((just-get-opt-parser:unknown-option #'invalid-arguments)
+                     (just-get-opt-parser:required-argument-missing #'invalid-arguments))
+        (just-get-opt-parser:getopt argv
+                                    '((:address "address" :required)
+                                      (:port "port" :required))
+                                    :options-everywhere t
+                                    :error-on-unknown-option t
+                                    :error-on-argument-missing t))
     (when args
       (invalid-arguments (format nil "~&Extra arguments: ~{'~A'~^, ~}~%" args)))
 

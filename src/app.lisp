@@ -1,50 +1,50 @@
-(defpackage #:utopian-r/app
-  (:use #:cl)
-  (:import-from #:utopian-r/routes
-                #:routes-mapper)
-  (:import-from #:utopian-r/config
-                #:*config-dir*
-                #:config)
-  (:import-from #:utopian-r/context
-                #:*request*
-                #:*response*)
-  (:import-from #:utopian-r/exceptions
-                #:throw-code
-                #:http-exception
-                #:http-exception-code
-                #:http-redirect
-                #:http-redirect-to
-                #:http-redirect-code)
-  (:import-from #:utopian-r/file-loader
-                #:load-file)
-  (:import-from #:lack
-                #:builder)
-  (:import-from #:lack.component
-                #:lack-component
-                #:to-app
-                #:call)
-  (:import-from #:lack.response
-                #:response-body
-                #:response-headers
-                #:response-status
-                #:finalize-response)
-  (:import-from #:lack.request)
-  (:import-from #:myway)
-  (:import-from #:safety-params
-                #:validation-error)
-  (:import-from #:closer-mop)
-  (:import-from #:alexandria
-                #:hash-table-plist)
-  (:export #:application
-           #:defapp
-           #:with-config
-           #:make-request
-           #:make-response
-           #:on-exception
-           #:on-validation-error))
-(in-package #:utopian-r/app)
+;; (defpackage #:utopian-r/app
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/routes
+;;                 #:routes-mapper)
+;;   (:import-from #:utopian-r/config
+;;                 #:*config-dir*
+;;                 #:config)
+;;   (:import-from #:utopian-r/context
+;;                 #:*request*
+;;                 #:*response*)
+;;   (:import-from #:utopian-r/exceptions
+;;                 #:throw-code
+;;                 #:http-exception
+;;                 #:http-exception-code
+;;                 #:http-redirect
+;;                 #:http-redirect-to
+;;                 #:http-redirect-code)
+;;   (:import-from #:utopian-r/file-loader
+;;                 #:load-file)
+;;   (:import-from #:lack
+;;                 #:builder)
+;;   (:import-from #:lack.component
+;;                 #:lack-component
+;;                 #:to-app
+;;                 #:call)
+;;   (:import-from #:lack.response
+;;                 #:response-body
+;;                 #:response-headers
+;;                 #:response-status
+;;                 #:finalize-response)
+;;   (:import-from #:lack.request)
+;;   (:import-from #:myway)
+;;   (:import-from #:safety-params
+;;                 #:validation-error)
+;;   (:import-from #:closer-mop)
+;;   (:import-from #:alexandria
+;;                 #:hash-table-plist)
+;;   (:export #:application
+;;            #:defapp
+;;            #:with-config
+;;            #:make-request
+;;            #:make-response
+;;            #:on-exception
+;;            #:on-validation-error))
+(in-package #:utopian-r)
 
-(defclass application (lack-component)
+(defclass application (lack.component:lack-component)
   ((routes :initarg :routes
            :accessor application-routes)
    (models :initarg :models
@@ -55,56 +55,56 @@
   `(let ((*config-dir* (slot-value (class-of ,app) 'config)))
      ,@body))
 
-(defmethod to-app :around ((app application))
+(defmethod lack.component:to-app :around ((app application))
   (let* ((config-dir (slot-value (class-of app) 'config))
          (*config-dir* config-dir))
-    (builder
+    (lack:builder
      (lambda (app)
        (lambda (env)
          (let ((*config-dir* config-dir))
            (funcall app env))))
      (call-next-method))))
 
-(defmethod call ((app application) env)
+(defmethod lack.component:call ((app application) env)
   (multiple-value-bind (res foundp)
       (myway:dispatch (routes-mapper (slot-value app 'routes))
                       (getf env :path-info)
                       :method (getf env :request-method))
     (if foundp
         (progn
-          (setf (response-body *response*) res)
-          (finalize-response *response*))
+          (setf (lack.response:response-body *response*) res)
+          (lack.response:finalize-response *response*))
         (throw-code 404))))
 
-(defmethod call :around ((app application) env)
+(defmethod lack.component:call :around ((app application) env)
   (let ((*request*
           ;; Handle errors mainly while parsing an HTTP request
           ;;   for preventing from 500 ISE.
           (handler-case (make-request app env)
             (error (e)
               (warn "~A" e)
-              (return-from call '(400 () ("Bad Request"))))))
+              (return-from lack.component:call '(400 () ("Bad Request"))))))
         (*response* (make-response app 200)))
     (handler-case (call-next-method)
       (http-exception (e)
-        (setf (response-status *response*)
+        (setf (lack.response:response-status *response*)
               (http-exception-code e))
-        (setf (response-body *response*)
+        (setf (lack.response:response-body *response*)
               (or (on-exception app e)
                   (princ-to-string e)))
-        (finalize-response *response*))
-      (validation-error (e)
-        (setf (response-status *response*) 400)
-        (setf (response-body *response*)
+        (lack.response:finalize-response *response*))
+      (safety-params:validation-error (e)
+        (setf (lack.response:response-status *response*) 400)
+        (setf (lack.response:response-body *response*)
               (or (on-validation-error app e)
                   "Invalid parameters")))
       (http-redirect (c)
         (let ((to (http-redirect-to c))
               (code (http-redirect-code c)))
-          (setf (getf (response-headers *response*) :location) to)
-          (setf (response-status *response*) code)
-          (setf (response-body *response*) to))
-        (finalize-response *response*)))))
+          (setf (getf (lack.response:response-headers *response*) :location) to)
+          (setf (lack.response:response-status *response*) code)
+          (setf (lack.response:response-body *response*) to))
+        (lack.response:finalize-response *response*)))))
 
 (defun load-models (app)
   (let ((models (application-models app)))
@@ -160,7 +160,7 @@
                                   v))
                    else
                      do (remhash k headers-map)
-                   finally (return (hash-table-plist headers-map)))))
+                   finally (return (alexandria:hash-table-plist headers-map)))))
       (lack.response:make-response status headers body))))
 
 (defgeneric on-exception (app exception)

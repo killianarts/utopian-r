@@ -7,17 +7,21 @@
                "clack"
                "closer-mop"
                "alexandria"
-               "mystic"
                "lack"
-               "lack-component" "lack-request" "lack-response"
-               "mystic" "mystic-file-mixin"
+               "mystic"
                "lsx"
-               "myway"
+               "myway" 
                "safety-params"
+               "cl-ppcre"
+               "mito"
+               "cl-dbi"
+               "just-getopt-parser"
                )
   :components ((:module src
+                :serial t
                 :components
-                ((:file "file-loader")
+                ((:file "packages")
+                 (:file "file-loader")
                  (:file "exceptions")
                  (:file "context")
                  (:file "config")
@@ -28,10 +32,19 @@
                  (:file "views")
                  (:file "app")
                  (:file "main"))))
-  :in-order-to ((test-op (test-op "utopian-r-tests"))))
+  ;; :in-order-to ((test-op (test-op "utopian-r-tests")))
+  )
 
 (register-system-packages "lack-component" '(#:lack.component))
 (register-system-packages "lack-request" '(#:lack.request))
 (register-system-packages "lack-response" '(#:lack.response))
-(register-system-packages "mystic" '(#:mystic.util))
+(register-system-packages "mystic" '(#:mystic))
 (register-system-packages "mystic-file-mixin" '(#:mystic.template.file))
+(register-system-packages "mystic-util" '(#:mystic.util))
+
+;; (defsystem "utopian-r-tests"
+;;   :pathname "tests"
+;;   :depends-on (
+;;                ;; "rove"
+;;                )
+;;   :perform (test-op (o c) (symbol-call :rove '#:run c)))

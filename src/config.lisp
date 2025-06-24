@@ -1,17 +1,17 @@
-(defpackage #:utopian-r/config
-  (:use #:cl)
-  (:import-from #:utopian-r/file-loader
-                #:eval-file)
-  (:import-from #:alexandria
-                #:when-let)
-  (:export #:*config-dir*
-           #:environment-config
-           #:config
-           #:db-settings
-           #:getenv
-           #:getenv-int
-           #:appenv))
-(in-package #:utopian-r/config)
+;; (defpackage #:utopian-r/config
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/file-loader
+;;                 #:eval-file)
+;;   (:import-from #:alexandria
+;;                 #:when-let)
+;;   (:export #:*config-dir*
+;;            #:environment-config
+;;            #:config
+;;            #:db-settings
+;;            #:getenv
+;;            #:getenv-int
+;;            #:appenv))
+(in-package #:utopian-r)
 
 (defvar *default-app-env* "local")
 
@@ -40,7 +40,7 @@
   (setf (uiop:getenv var) new-value))
 
 (defun getenv-int (var)
-  (when-let (value (getenv var))
+  (alexandria:when-let (value (getenv var))
     (assert (every #'digit-char-p value))
     (parse-integer value)))
 

@@ -1,14 +1,14 @@
-(defpackage #:utopian-r/errors
-  (:use #:cl)
-  (:export #:utopian-r-error
-           #:utopian-r-task-error
-           #:simple-task-error
-           #:invalid-arguments
-           #:unknown-command
-           #:file-not-found
-           #:system-not-found
-           #:directory-already-exists))
-(in-package #:utopian-r/errors)
+;; (defpackage #:utopian-r/errors
+;;   (:use #:cl)
+;;   (:export #:utopian-r-error
+;;            #:utopian-r-task-error
+;;            #:simple-task-error
+;;            #:invalid-arguments
+;;            #:unknown-command
+;;            #:file-not-found
+;;            #:system-not-found
+;;            #:directory-already-exists))
+(in-package #:utopian-r)
 
 (define-condition utopian-r-error (error) ())
 

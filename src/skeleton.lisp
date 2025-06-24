@@ -1,16 +1,16 @@
-(defpackage #:utopian-r/skeleton
-  (:use #:cl)
-  (:import-from #:mystic.template.file
-                #:file
-                #:file-mixin)
-  (:import-from #:mystic
-                #:render-template
-                #:prompt-option)
-  (:import-from #:mystic.util
-                #:render-string
-                #:write-file)
-  (:export #:standard-project))
-(in-package #:utopian-r/skeleton)
+;; (defpackage #:utopian-r/skeleton
+;;   (:use #:cl)
+;;   (:import-from #:mystic.template.file
+;;                 #:file
+;;                 #:file-mixin)
+;;   (:import-from #:mystic
+;;                 #:render-template
+;;                 #:prompt-option)
+;;   (:import-from #:mystic.util
+;;                 #:render-string
+;;                 #:write-file)
+;;   (:export #:standard-project))
+(in-package #:utopian-r)
 
 (defun skeleton-file (file)
   (asdf:system-relative-pathname :utopian-r
@@ -28,7 +28,7 @@
     (labels ((directory-project-files (dir)
                (append
                 (loop for file in (uiop:directory-files dir)
-                      collect (make-instance 'file
+                      collect (make-instance 'mystic.template.file:file
                                              :path (namestring (make-relative-pathname file base-directory))
                                              :content (uiop:read-file-string file)))
                 (loop for subdir in (uiop:subdirectories dir)
@@ -88,10 +88,10 @@
                            :environment "local")
                          options)))
     (flet ((render-and-write (file destination)
-             (let ((file-path (parse-namestring (render-string destination options)))
-                   (content (render-string (uiop:read-file-string (skeleton-file file))
-                                           options)))
-               (write-file content (merge-pathnames file-path directory)))))
+             (let ((file-path (parse-namestring (mystic.util:render-string destination options)))
+                   (content (mystic.util:render-string (uiop:read-file-string (skeleton-file file))
+                                                       options)))
+               (mystic.util:write-file content (merge-pathnames file-path directory)))))
       (render-and-write #P"files/asdf.lisp" "{{project-name}}.asd")
       (render-and-write #P"files/controller.lisp" "controllers/root.lisp")
       (render-and-write #P"files/view.lisp" "views/root.lisp")

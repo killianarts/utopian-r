@@ -1,25 +1,25 @@
-(defpackage #:utopian-r/routes
-  (:use #:cl)
-  (:import-from #:utopian-r/context
-                #:*request*
-                #:*response*)
-  (:import-from #:utopian-r/file-loader
-                #:intern-rule)
-  (:import-from #:myway
-                #:make-mapper
-                #:connect
-                #:next-route)
-  (:import-from #:lack.request
-                #:request-parameters)
-  (:export #:defroutes
-           #:routes
-           #:routes-mapper
-           #:routes-controllers-directory
-           #:route
+;; (defpackage #:utopian-r/routes
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/context
+;;                 #:*request*
+;;                 #:*response*)
+;;   (:import-from #:utopian-r/file-loader
+;;                 #:intern-rule)
+;;   (:import-from #:myway
+;;                 #:make-mapper
+;;                 #:connect
+;;                 #:next-route)
+;;   (:import-from #:lack.request
+;;                 #:request-parameters)
+;;   (:export #:defroutes
+;;            #:routes
+;;            #:routes-mapper
+;;            #:routes-controllers-directory
+;;            #:route
 
-           ;; from MyWay
-           #:next-route))
-(in-package #:utopian-r/routes)
+;;            ;; from MyWay
+;;            #:next-route))
+(in-package #:utopian-r)
 
 (defvar *controllers-directory*)
 
@@ -28,7 +28,7 @@
     (funcall action
              (append (loop for (k v) on params by #'cddr
                            collect (cons k v))
-                     (request-parameters *request*)))))
+                     (lack.request:request-parameters *request*)))))
 
 (defun parse-controller-rule (rule)
   (etypecase rule

@@ -1,24 +1,24 @@
-(defpackage #:utopian-r/tasks/db
-  (:use #:cl)
-  (:import-from #:utopian-r/config
-                #:db-settings
-                #:appenv)
-  (:import-from #:utopian-r/app
-                #:with-config
-                #:load-models)
-  (:import-from #:utopian-r/file-loader
-                #:eval-file)
-  (:import-from #:cl-dbi)
-  (:import-from #:mito)
-  (:export #:connect
-           #:create
-           #:drop
-           #:recreate
-           #:reset
-           #:migrate
-           #:migration-status
-           #:generate-migrations))
-(in-package #:utopian-r/tasks/db)
+;; (defpackage #:utopian-r/tasks/db
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/config
+;;                 #:db-settings
+;;                 #:appenv)
+;;   (:import-from #:utopian-r/app
+;;                 #:with-config
+;;                 #:load-models)
+;;   (:import-from #:utopian-r/file-loader
+;;                 #:eval-file)
+;;   (:import-from #:cl-dbi)
+;;   (:import-from #:mito)
+;;   (:export #:connect
+;;            #:create
+;;            #:drop
+;;            #:recreate
+;;            #:reset
+;;            #:migrate
+;;            #:migration-status
+;;            #:generate-migrations))
+(in-package #:utopian-r)
 
 (defun load-app (app)
   (if (pathnamep app)

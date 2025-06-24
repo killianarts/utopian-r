@@ -5,11 +5,11 @@ exec ros -Q -- $0 "$@"
 |#
 (progn ;;init forms
   (ros:ensure-asdf)
-  (ql:quickload '#:utopian-r/errors :silent t))
+  (ql:quickload '#:utopian-r :silent t))
 
 (defpackage #:ros.script.utopian-r.3758684578
   (:use #:cl)
-  (:import-from #:utopian-r/errors
+  (:import-from #:utopian-r
                 #:invalid-arguments
                 #:unknown-command
                 #:simple-task-error))
@@ -38,17 +38,13 @@ COMMANDS:
   (handler-case
       (cond
         ((equal $1 "new")
-         (ql:quickload '#:utopian-r/cli/new :silent t)
-         (uiop:symbol-call :utopian-r/cli/new :main (first argv)))
+         (uiop:symbol-call :utopian-r :new-command (first argv)))
         ((equal $1 "server")
-         (ql:quickload '#:utopian-r/cli/server :silent t)
-         (uiop:symbol-call :utopian-r/cli/server :main argv))
+         (uiop:symbol-call :utopian-r :server-command argv))
         ((equal $1 "db")
-         (ql:quickload '#:utopian-r/cli/db :silent t)
-         (uiop:symbol-call :utopian-r/cli/db :main (first argv)))
+         (uiop:symbol-call :utopian-r :db-command (first argv)))
         ((equal $1 "generate")
-         (ql:quickload '#:utopian-r/cli/generate :silent t)
-         (apply #'uiop:symbol-call :utopian-r/cli/generate :main argv))
+         (apply #'uiop:symbol-call :utopian-r :generate-command argv))
         (t
          (print-usage)
          (uiop:quit -1)))

@@ -1,10 +1,10 @@
-(defpackage #:utopian-r/file-loader
-  (:use #:cl)
-  (:import-from #:cl-ppcre)
-  (:export #:load-file
-           #:eval-file
-           #:intern-rule))
-(in-package #:utopian-r/file-loader)
+;; (defpackage #:utopian-r/file-loader
+;;   (:use #:cl)
+;;   (:import-from #:cl-ppcre)
+;;   (:export #:load-file
+;;            #:eval-file
+;;            #:intern-rule))
+(in-package #:utopian-r)
 
 (defun load-file (file &optional silent)
   (let ((package (second (asdf/package-inferred-system::file-defpackage-form file)))

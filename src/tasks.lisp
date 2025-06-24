@@ -1,15 +1,15 @@
-(defpackage #:utopian-r/tasks
-  (:use #:cl
-        #:utopian-r/errors)
-  (:import-from #:utopian-r/skeleton
-                #:standard-project)
-  (:import-from #:clack
-                #:clackup)
-  (:export #:server
-           #:new
-           #:ask-for-value
-           #:use-value))
-(in-package #:utopian-r/tasks)
+;; (defpackage #:utopian-r/tasks
+;;   (:use #:cl
+;;         #:utopian-r/errors)
+;;   (:import-from #:utopian-r/skeleton
+;;                 #:standard-project)
+;;   (:import-from #:clack
+;;                 #:clackup)
+;;   (:export #:server
+;;            #:new
+;;            #:ask-for-value
+;;            #:use-value))
+(in-package #:utopian-r)
 
 (defun server (app-file &key address port)
   (check-type app-file pathname)
@@ -75,7 +75,7 @@
                             (if (char= char #\Space)
                                 #\-
                                 (char-downcase char)))
-               project-name)))
+                  project-name)))
       (setf (getf options :project-name) project-name)
       (setf (getf options :description)
             (check-and-ask-for description "Description" ""))

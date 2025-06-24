@@ -7,7 +7,7 @@
                 ((:file "application"
                   :file "routes"
                   :file "environments/local")))
-               ((:file "app")
-                (:file "main"))))
+               ((:file "app"))
+               (:file "main")))
 
 (register-system-packages "lack-component" '(#:lack.component))

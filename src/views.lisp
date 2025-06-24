@@ -1,20 +1,20 @@
-(defpackage #:utopian-r/views
-  (:use #:cl)
-  (:import-from #:utopian-r/context
-                #:*response*
-                #:response-headers)
-  (:import-from #:closer-mop)
-  (:import-from #:alexandria
-                #:ensure-car)
-  (:export #:defview
-           #:utopian-r-view
-           #:utopian-r-view-class
-           #:utopian-r-view-direct-superclasses
-           #:render-html
-           #:render-object
-           #:html-view
-           #:html-view-class))
-(in-package #:utopian-r/views)
+;; (defpackage #:utopian-r/views
+;;   (:use #:cl)
+;;   (:import-from #:utopian-r/context
+;;                 #:*response*
+;;                 #:response-headers)
+;;   (:import-from #:closer-mop)
+;;   (:import-from #:alexandria
+;;                 #:ensure-car)
+;;   (:export #:defview
+;;            #:utopian-r-view
+;;            #:utopian-r-view-class
+;;            #:utopian-r-view-direct-superclasses
+;;            #:render-html
+;;            #:render-object
+;;            #:html-view
+;;            #:html-view-class))
+(in-package #:utopian-r)
 
 (defvar *default-content-type* "text/html")
 
@@ -41,7 +41,7 @@
       (when (and (boundp '*response*)
                  *response*
                  content-type)
-        (setf (getf (response-headers *response*) :content-type)
+        (setf (getf (lack.response:response-headers *response*) :content-type)
               content-type)))))
 
 (defmethod c2mop:direct-slot-definition-class ((class utopian-r-view-class) &key &allow-other-keys)
@@ -52,7 +52,7 @@
 
 (defun view-content-type (view-class)
   (if (slot-boundp view-class 'content-type)
-      (ensure-car (slot-value view-class 'content-type))
+      (alexandria:ensure-car (slot-value view-class 'content-type))
       *default-content-type*))
 
 (defmacro define-initialize-instance (lambda-list &body body)
@@ -68,11 +68,11 @@
 
 (define-initialize-instance ((class utopian-r-view-class) &rest initargs
                              &key direct-superclasses &allow-other-keys)
-    (apply #'call-next-method class
-           :direct-superclasses (append direct-superclasses
-                                        (mapcar #'find-class
-                                                (utopian-r-view-direct-superclasses class)))
-           initargs))
+  (apply #'call-next-method class
+         :direct-superclasses (append direct-superclasses
+                                      (mapcar #'find-class
+                                              (utopian-r-view-direct-superclasses class)))
+         initargs))
 
 (define-initialize-instance :after ((class utopian-r-view-class) &rest initargs &key direct-slots render &allow-other-keys)
   (declare (ignore initargs))
