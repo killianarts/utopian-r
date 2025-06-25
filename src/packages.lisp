@@ -38,6 +38,11 @@
                 ;; #:validation-error
                 )
   (:export
+   ;; cli
+   #:new-command
+   #:generate-command
+   #:server-command
+   #:db-command
    ;; context
    #:to-app
    #:call
