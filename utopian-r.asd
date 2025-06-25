@@ -7,8 +7,8 @@
                "clack"
                "closer-mop"
                "alexandria"
-               "lack"
-               "mystic"
+               "lack" "lack-request" "lack-response" "lack-component"
+               "mystic" "mystic-file-mixin" 
                "lsx"
                "myway" 
                "safety-params"
@@ -34,13 +34,6 @@
                  (:file "main"))))
   ;; :in-order-to ((test-op (test-op "utopian-r-tests")))
   )
-
-(register-system-packages "lack-component" '(#:lack.component))
-(register-system-packages "lack-request" '(#:lack.request))
-(register-system-packages "lack-response" '(#:lack.response))
-(register-system-packages "mystic" '(#:mystic))
-(register-system-packages "mystic-file-mixin" '(#:mystic.template.file))
-(register-system-packages "mystic-util" '(#:mystic.util))
 
 ;; (defsystem "utopian-r-tests"
 ;;   :pathname "tests"
