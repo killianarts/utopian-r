@@ -29,14 +29,14 @@ OPTIONS
 
 (defun server-command (argv)
   (multiple-value-bind (options args)
-      (handler-bind ((just-get-opt-parser:unknown-option #'invalid-arguments)
-                     (just-get-opt-parser:required-argument-missing #'invalid-arguments))
-        (just-get-opt-parser:getopt argv
-                                    '((:address "address" :required)
-                                      (:port "port" :required))
-                                    :options-everywhere t
-                                    :error-on-unknown-option t
-                                    :error-on-argument-missing t))
+      (handler-bind ((just-getopt-parser:unknown-option #'invalid-arguments)
+                     (just-getopt-parser:required-argument-missing #'invalid-arguments))
+        (just-getopt-parser:getopt argv
+                                   '((:address "address" :required)
+                                     (:port "port" :required))
+                                   :options-everywhere t
+                                   :error-on-unknown-option t
+                                   :error-on-argument-missing t))
     (when args
       (invalid-arguments (format nil "~&Extra arguments: ~{'~A'~^, ~}~%" args)))
 

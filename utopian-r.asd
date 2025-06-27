@@ -31,7 +31,15 @@
                  (:file "tasks")
                  (:file "views")
                  (:file "app")
-                 (:file "main"))))
+                 (:file "main")
+                 (:module "task-utils"
+                  :pathname "tasks"
+                  :components ((:file "db")))
+                 (:module cli
+                  :components ((:file "new")
+                               (:file "db")
+                               (:file "server")
+                               (:file "generate"))))))
   ;; :in-order-to ((test-op (test-op "utopian-r-tests")))
   )
 
