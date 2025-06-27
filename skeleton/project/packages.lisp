@@ -1,2 +1,2 @@
-(defpackage #:{{package-name}}
+(defpackage #:{{project-name}}
   (:use :cl :utopian-r))
