@@ -1,8 +1,4 @@
-(defpackage #:{{project-name}}/app
-  (:use #:cl
-        #:{{project-name}}/config/routes
-        #:{{project-name}}/config/application))
-(in-package #:{{project-name}}/app)
+(in-package #:{{project-name}})
 
 (make-instance '{{project-name}}-app
                :routes *routes*

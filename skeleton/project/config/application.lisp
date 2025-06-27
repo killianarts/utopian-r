@@ -1,14 +1,4 @@
-(defpackage #:{{project-name}}/config/application
-  (:use #:cl
-        #:utopian)
-  (:import-from #:lack.component
-                #:to-app
-                #:call)
-  (:import-from #:lack
-                #:builder)
-  (:import-from #:cl-ppcre)
-  (:export #:{{project-name}}-app))
-(in-package #:{{project-name}}/config/application)
+(in-package #:{{project-name}})
 
 (defapp {{project-name}}-app ()
   ()

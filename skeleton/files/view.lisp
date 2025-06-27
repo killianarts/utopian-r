@@ -1,13 +1,6 @@
-(defpackage #:{{project-name}}/views/{{controller}}
-  (:use #:cl
-        #:utopian-r)
-  (:import-from #:lsx
-                #:enable-lsx-syntax)
-  (:export {{#actions}}#:{{name}}-page{{^last}}
-           {{/last}}{{/actions}}))
-(in-package #:{{project-name}}/views/{{controller}})
+(in-package #:{{project-name}})
 
-(enable-lsx-syntax)
+(lsx:enable-lsx-syntax)
 {{#actions}}
 
 (defview {{name}}-page ()

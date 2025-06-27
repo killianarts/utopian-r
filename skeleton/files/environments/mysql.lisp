@@ -1,6 +1,4 @@
-(defpackage #:{{project-name}}/config/environments/{{environment}}
-  (:use #:cl))
-(in-package #:{{project-name}}/config/environments/{{environment}})
+(in-package #:{{project-name}})
 
 `(:databases
   ((:maindb . (:mysql

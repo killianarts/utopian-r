@@ -1,8 +1,4 @@
-(defpackage #:{{project-name}}/config/routes
-  (:use #:cl
-        #:utopian)
-  (:export #:*routes*))
-(in-package #:{{project-name}}/config/routes)
+(in-package #:{{project-name}})
 
 (defroutes *routes* ()
   (:controllers #P"../controllers/"))
